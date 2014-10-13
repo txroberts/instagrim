@@ -14,3 +14,13 @@ nav {
     border: 2px;
     float: right;
 }
+
+header li {
+    display: inline;
+    float: right;
+}
+
+footer li {
+    display: inline;
+    clear: both;
+}

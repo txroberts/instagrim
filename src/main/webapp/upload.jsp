@@ -13,7 +13,7 @@
         <link rel="stylesheet" type="text/css" href="Styles.css" />
     </head>
     <body>
-        <h1>InstaGrim ! </h1>
+        <h1>InstaGrim!</h1>
         <h2>Your world in Black and White</h2>
         <nav>
             <ul>
