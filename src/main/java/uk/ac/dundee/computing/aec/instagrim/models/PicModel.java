@@ -50,7 +50,7 @@ public class PicModel {
         this.cluster = cluster;
     }
 
-    public void insertPic(byte[] b, String type, String name, String user) {
+    public void insertPic(byte[] b, String type, String name, String user, boolean isProfilePic) {
         try {
             Convertors convertor = new Convertors();
 
@@ -80,6 +80,15 @@ public class PicModel {
             Date DateAdded = new Date();
             session.execute(bsInsertPic.bind(picid, buffer, thumbbuf,processedbuf, user, DateAdded, length,thumblength,processedlength, type, name));
             session.execute(bsInsertPicToUser.bind(picid, user, DateAdded));
+            
+            /********************************************************************************************************************/
+            if (isProfilePic){
+                PreparedStatement psLinkProfilePicToUser = session.prepare("update userprofiles set profile_pic = ? where login = ?");
+                BoundStatement bsLinkProfilePicToUser = new BoundStatement(psLinkProfilePicToUser);
+                session.execute(bsLinkProfilePicToUser.bind(picid, user));
+            }
+            /********************************************************************************************************************/
+            
             session.close();
 
         } catch (IOException ex) {

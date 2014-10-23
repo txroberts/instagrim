@@ -47,10 +47,13 @@ public class Register extends HttpServlet {
             throws ServletException, IOException {
         String username=request.getParameter("username");
         String password=request.getParameter("password");
+        String firstName=request.getParameter("firstName");
+        String lastName=request.getParameter("lastName");
+        String emailAddr=request.getParameter("emailAddr");
         
         User us=new User();
         us.setCluster(cluster);
-        us.RegisterUser(username, password);
+        us.RegisterUser(username, password, firstName, lastName, emailAddr);
         
 	response.sendRedirect("/Instagrim");
         

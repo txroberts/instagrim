@@ -4,25 +4,53 @@
     Author     : Tom
 --%>
 
-<%@page import="uk.ac.dundee.computing.aec.instagrim.stores.LoggedIn"%>
+<%@page import="uk.ac.dundee.computing.aec.instagrim.stores.ProfilePage"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Profile Page</title>
+        <link rel="stylesheet" type="text/css" href="Styles.css" />
     </head>
     <body>
+        <h1>InstaGrim!</h1>
+        <h2>Your world in Black and White</h2>
+        <nav>
+            <ul>
+                <li class="nav"><a href="upload.jsp">Upload</a></li>
+                <li class="nav"><a href="/Instagrim/Images/majed">Sample Images</a></li>
+            </ul>
+            <form method="POST"  action="Logout">
+                    <input type="submit" value="Logout"> 
+                </form>
+        </nav>
+        
+        <h2>User Profile Page</h2>
+        
         <%
-            LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
-            if (lg != null) {
-                String UserName = lg.getUsername();
-                if (lg.getlogedin()) {
+            java.util.LinkedList<ProfilePage> profilePages = (java.util.LinkedList<ProfilePage>) request.getAttribute("ProfilePage");
+            
+            ProfilePage user = (ProfilePage) profilePages.get(0);
         %>
-        <h2><%=lg.getUsername()%>'s Profile</h2>
-        <%}
-            }else{%>
-        <h1>No profile found</h1>
-            <%}%>
+        
+        <h2><%=user.getUsername()%></h2>
+        
+        <article>
+            <h3>Upload Profile Picture</h3>
+            <form method="POST" enctype="multipart/form-data" action="UploadProfilePic">
+                File to upload: <input type="file" name="upfile"><br/>
+
+                <br/>
+                <input type="submit" value="Press"> to upload the file!
+            </form>
+
+        </article>
+            
+        <footer>
+            <ul>
+                <li class="footer"><a href="/Instagrim">Home</a></li>
+            </ul>
+        </footer>
     </body>
 </html>

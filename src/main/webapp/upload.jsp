@@ -20,6 +20,9 @@
                 <li class="nav"><a href="upload.jsp">Upload</a></li>
                 <li class="nav"><a href="/Instagrim/Images/majed">Sample Images</a></li>
             </ul>
+            <form method="POST"  action="Logout">
+                    <input type="submit" value="Logout"> 
+                </form>
         </nav>
  
         <article>
