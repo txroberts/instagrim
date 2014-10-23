@@ -85,21 +85,21 @@ public class User {
         this.cluster = cluster;
     }
        
-    public LinkedList<ProfilePage> getUserInfo(String user){
-        java.util.LinkedList<ProfilePage> ProfilePages = new java.util.LinkedList<>();
-        
+    public ProfilePage getUserInfo(String user){
         Session session = cluster.connect("instagrim");
         PreparedStatement ps = session.prepare("select login, addresses, email, first_name, last_name, profile_pic from userprofiles where login = ?");
         BoundStatement boundStatement = new BoundStatement(ps);
         ResultSet rs = null;
         rs = session.execute(boundStatement.bind(user));
         
+        ProfilePage profile = null;
+        
         if (rs.isExhausted()) {
             System.out.println("No profiles returned for user: " + user);
             return null;
         } else {
             for (Row row : rs) {
-                ProfilePage profile = new ProfilePage();
+                profile = new ProfilePage();
                 
                 String username = row.getString("login");
                 String firstName = row.getString("first_name");
@@ -110,11 +110,9 @@ public class User {
                 profile.setFirstName(firstName);
                 profile.setLastName(lastName);
                 profile.setProfilePic(profilePic);
-                
-                ProfilePages.push(profile);
             }
         }
         
-        return ProfilePages;
+        return profile;
     }
 }

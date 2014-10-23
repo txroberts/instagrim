@@ -26,15 +26,18 @@
                 </form>
         </nav>
         
-        <h2>User Profile Page</h2>
-        
         <%
-            java.util.LinkedList<ProfilePage> profilePages = (java.util.LinkedList<ProfilePage>) request.getAttribute("ProfilePage");
-            
-            ProfilePage user = (ProfilePage) profilePages.get(0);
+            ProfilePage profilePage = (ProfilePage) request.getAttribute("ProfilePage");
+            if (profilePage == null){ %>
+                <h2>User not found</h2>
+            <% }
+            else { 
+                if (profilePage.getProfilePic() != null){%>
+                    <h2><%=profilePage.getUsername()%>'s Profile Page</h2>
+                    <h4><%=profilePage.getFirstName()%> <%=profilePage.getLastName()%></h4>
+                    <a href="/Instagrim/Image/<%=profilePage.getProfilePic()%>" ><img src="/Instagrim/Thumb/<%=profilePage.getProfilePic()%>"></a>
+            <% }}
         %>
-        
-        <h2><%=user.getUsername()%></h2>
         
         <article>
             <h3>Upload Profile Picture</h3>

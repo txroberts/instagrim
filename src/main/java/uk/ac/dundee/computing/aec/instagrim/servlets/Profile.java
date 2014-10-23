@@ -79,7 +79,7 @@ public class Profile extends HttpServlet {
         User us = new User();
         us.setCluster(cluster);
         
-        java.util.LinkedList<ProfilePage> pp = us.getUserInfo(args[2]);
+        ProfilePage pp = us.getUserInfo(args[2]);
         request.setAttribute("ProfilePage", pp);
         
         RequestDispatcher rd = request.getRequestDispatcher("/Profile.jsp");
