@@ -110,7 +110,6 @@ public class User {
                 profile.setFirstName(firstName);
                 profile.setLastName(lastName);
                 profile.setProfilePic(profilePic);
-                System.out.println("Login: " + profile.getUsername());
                 
                 ProfilePages.push(profile);
             }

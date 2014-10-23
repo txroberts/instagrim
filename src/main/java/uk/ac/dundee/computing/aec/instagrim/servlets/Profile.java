@@ -13,6 +13,7 @@ import java.util.HashMap;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +32,8 @@ import uk.ac.dundee.computing.aec.instagrim.stores.ProfilePage;
  * @author Tom
  */
 @WebServlet(name = "Profile", urlPatterns = {"/Profile/*"})
+@MultipartConfig
+
 public class Profile extends HttpServlet {
     
     private Cluster cluster;
@@ -68,7 +71,7 @@ public class Profile extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
+    
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String args[] = Convertors.SplitRequestPath(request);
@@ -91,7 +94,7 @@ public class Profile extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
+    
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         for (Part part : request.getParts()) {
@@ -119,8 +122,9 @@ public class Profile extends HttpServlet {
 
                 is.close();
             }
-            RequestDispatcher rd = request.getRequestDispatcher("/Profile.jsp");
-            rd.forward(request, response);
+            //RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
+            //rd.forward(request, response);
+            response.sendRedirect("/Instagrim/Profile/" + username);
         }
     }
 
