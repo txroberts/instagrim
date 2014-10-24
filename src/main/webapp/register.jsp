@@ -37,7 +37,6 @@
                 <br/>
                 <input type="submit" value="Register"> 
             </form>
-
         </article>
         <footer>
             <ul>

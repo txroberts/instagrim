@@ -15,7 +15,7 @@ public class ProfilePage {
     String username = null;
     String firstName = null;
     String lastName = null;
-    java.util.UUID profilePic = null;
+    UUID profilePic = null;
     
     public void ProfilePage(){
         

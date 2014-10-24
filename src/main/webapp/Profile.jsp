@@ -4,7 +4,7 @@
     Author     : Tom
 --%>
 
-<%@page import="uk.ac.dundee.computing.aec.instagrim.stores.ProfilePage"%>
+<%@page import="uk.ac.dundee.computing.aec.instagrim.stores.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -14,41 +14,56 @@
         <link rel="stylesheet" type="text/css" href="Styles.css" />
     </head>
     <body>
+        <% ProfilePage profilePage = (ProfilePage) request.getAttribute("ProfilePage");
+           LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn"); %>
+           
         <h1>InstaGrim!</h1>
         <h2>Your world in Black and White</h2>
         <nav>
             <ul>
-                <li class="nav"><a href="upload.jsp">Upload</a></li>
-                <li class="nav"><a href="/Instagrim/Images/majed">Sample Images</a></li>
+                <li class="nav"><a href="/Instagrim/upload.jsp">Upload</a></li>
+                <% if (lg != null && lg.getlogedin()) {
+                    if (profilePage.getUsername().compareTo(lg.getUsername()) == 0){ %>
+                        <li><a href="/Instagrim/Images/<%=profilePage.getUsername()%>">Your Images</a></li>
+                <%  } else { %>
+                    <li><a href="/Instagrim/Images/<%=profilePage.getUsername()%>"><%=profilePage.getUsername()%>'s Images</a></li>
+                    <% }} %>
             </ul>
-            <form method="POST"  action="Logout">
+            
+            <%-- if (lg != null && lg.getlogedin()){ %>
+                <form method="POST"  action="Logout">
                     <input type="submit" value="Logout"> 
                 </form>
+            <% } --%>
         </nav>
         
-        <%
-            ProfilePage profilePage = (ProfilePage) request.getAttribute("ProfilePage");
-            if (profilePage == null){ %>
-                <h2>User not found</h2>
+        <% if (profilePage == null){ %>
+                <h2>User profile not found</h2>
             <% }
-            else { 
-                if (profilePage.getProfilePic() != null){%>
-                    <h2><%=profilePage.getUsername()%>'s Profile Page</h2>
-                    <h4><%=profilePage.getFirstName()%> <%=profilePage.getLastName()%></h4>
+            else { %>
+                <h2><%=profilePage.getUsername()%>'s Profile</h2>
+                <% if (profilePage.getFirstName() !=  null && profilePage.getLastName() != null){ %>
+                    <p><b>Real name:</b> <%=profilePage.getFirstName()%> <%=profilePage.getLastName()%></p>
+                <%}%>
+                
+                <% if (profilePage.getProfilePic() != null){%>
                     <a href="/Instagrim/Image/<%=profilePage.getProfilePic()%>" ><img src="/Instagrim/Thumb/<%=profilePage.getProfilePic()%>"></a>
-            <% }}
-        %>
-        
-        <article>
-            <h3>Upload Profile Picture</h3>
-            <form method="POST" enctype="multipart/form-data" action="UploadProfilePic">
-                File to upload: <input type="file" name="upfile"><br/>
+                <% } %>
+            
+            <% if (lg != null && lg.getlogedin()){
+                    if (profilePage.getUsername().compareTo(lg.getUsername()) == 0){ %>
+            <article>
+                <h3>Upload Profile Picture</h3>
+                <form method="POST" enctype="multipart/form-data" action="UploadProfilePic">
+                    File to upload: <input type="file" name="upfile"><br/>
 
-                <br/>
-                <input type="submit" value="Press"> to upload the file!
-            </form>
-
-        </article>
+                    <br/>
+                    <input type="submit" value="Press"> to upload the file!
+                </form>
+                
+                <p><a href="/Instagrim/editProfile/<%=profilePage.getUsername()%>">Edit your profile information</a></p>
+            </article>
+            <% }}} %>
             
         <footer>
             <ul>

@@ -50,6 +50,13 @@ public class User {
         return true;
     }
     
+    public void updateUserInfo(String username, String firstName, String lastName){
+        Session session = cluster.connect("instagrim");
+        PreparedStatement ps = session.prepare("update userprofiles set first_name = ?, last_name = ? where login = ?");
+        BoundStatement bs = new BoundStatement(ps);
+        session.execute(bs.bind(firstName, lastName, username));
+    }
+    
     public boolean IsValidUser(String username, String Password){
         AeSimpleSHA1 sha1handler=  new AeSimpleSHA1();
         String EncodedPassword=null;
