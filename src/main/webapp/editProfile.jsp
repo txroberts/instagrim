@@ -20,25 +20,20 @@
             <h2>Your world in Black and White</h2>
         </header>
         
-        <% if (lg != null && profilePage != null && lg.getlogedin()){
-            if (profilePage.getUsername().compareTo(lg.getUsername()) == 0){ %>
-                <article>
-                    <h3>Edit your profile</h3>
-                    <form method="POST"  action="UpdateProfile">
-                        <ul>
-                            <li><b>User Name:</b> <input type="text" name="username" value="<%=profilePage.getUsername()%>" readonly="readonly"></li>
-                            <li><b>First Name:</b> <input type="text" name="firstName" value="<%=profilePage.getFirstName()%>"></li>
-                            <li><b>Last Name:</b> <input type="text" name="lastName" value="<%=profilePage.getLastName()%>"></li>
-                        </ul>
-                        <br/>
-                        <input type="submit" value="Update"> 
-                    </form>
-                </article>
-        <% } else {
-                response.sendRedirect("/Instagrim");
-                }
-        } else {
-            response.sendRedirect("/Instagrim");
-        }%>
+        <article>
+            <h3>Edit your profile</h3>
+            <form method="POST"  action="UpdateProfile">
+                <fieldset>
+                    <legend>Personal information:</legend>
+                    <p><b>User Name:</b> <input type="text" name="username" value="<%=profilePage.getUsername()%>" readonly="readonly" autofocus></p>
+                    <p><b>First Name:</b> <input type="text" name="firstName" value="<%=profilePage.getFirstName()%>"></p>
+                    <p><b>Last Name:</b> <input type="text" name="lastName" value="<%=profilePage.getLastName()%>"></p>
+                    <p><b>Email:</b> <input type="email" name="email" value="tom@email.com"></p>
+                    
+                    <br/>
+                    <input type="submit" value="Update">
+                </fieldset>
+            </form>
+        </article>
     </body>
 </html>

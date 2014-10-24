@@ -15,9 +15,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import uk.ac.dundee.computing.aec.instagrim.lib.CassandraHosts;
 import uk.ac.dundee.computing.aec.instagrim.lib.Convertors;
 import uk.ac.dundee.computing.aec.instagrim.models.User;
+import uk.ac.dundee.computing.aec.instagrim.stores.LoggedIn;
 import uk.ac.dundee.computing.aec.instagrim.stores.ProfilePage;
 
 /**
@@ -49,16 +51,7 @@ public class editProfile extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String args[] = Convertors.SplitRequestPath(request);
         
-        User us = new User();
-        us.setCluster(cluster);
-        
-        ProfilePage pp = us.getUserInfo(args[2]);
-        request.setAttribute("ProfilePage", pp);
-        
-        RequestDispatcher rd = request.getRequestDispatcher("/editProfile.jsp");
-        rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -73,7 +66,23 @@ public class editProfile extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String args[] = Convertors.SplitRequestPath(request);
+        User us = new User();
+        us.setCluster(cluster);
+        ProfilePage pp = us.getUserInfo(args[2]);
+        
+        HttpSession session=request.getSession();
+        LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
+        
+        if (lg == null || pp == null || pp.getUsername().compareTo(lg.getUsername()) != 0 || lg.getlogedin() == false){
+            response.sendRedirect("/Instagrim");
+        }
+        else{
+            request.setAttribute("ProfilePage", pp);
+
+            RequestDispatcher rd = request.getRequestDispatcher("/editProfile.jsp");
+            rd.forward(request, response);
+        }
     }
 
     /**

@@ -54,7 +54,7 @@
                     if (profilePage.getUsername().compareTo(lg.getUsername()) == 0){ %>
             <article>
                 <h3>Upload Profile Picture</h3>
-                <form method="POST" enctype="multipart/form-data" action="UploadProfilePic">
+                <form method="POST" enctype="multipart/form-data" action="Profile">
                     File to upload: <input type="file" name="upfile"><br/>
 
                     <br/>
