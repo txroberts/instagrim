@@ -36,10 +36,10 @@
         <nav>
             <ul>
                 <li><a href="upload.jsp">Upload</a></li>
+                <li><a href="searchProfiles.jsp">Search Profiles</a></li>
                     <%
                         lg = (LoggedIn) session.getAttribute("LoggedIn");
                         if (lg != null) {
-                            String UserName = lg.getUsername();
                             if (lg.getlogedin()) {
                     %>
                 <li><a href="/Instagrim/Profile/<%=lg.getUsername()%>">Your Profile</a></li>

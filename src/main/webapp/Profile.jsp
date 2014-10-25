@@ -17,6 +17,12 @@
         <% ProfilePage profilePage = (ProfilePage) request.getAttribute("ProfilePage");
            LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn"); %>
            
+        <header>
+            <ul>
+                <li class="header"><a href="/Instagrim">Home</a></li>
+            </ul>
+        </header>
+           
         <h1>InstaGrim!</h1>
         <h2>Your world in Black and White</h2>
         <nav>
@@ -29,12 +35,6 @@
                     <li><a href="/Instagrim/Images/<%=profilePage.getUsername()%>"><%=profilePage.getUsername()%>'s Images</a></li>
                     <% }} %>
             </ul>
-            
-            <%-- if (lg != null && lg.getlogedin()){ %>
-                <form method="POST"  action="Logout">
-                    <input type="submit" value="Logout"> 
-                </form>
-            <% } --%>
         </nav>
         
         <% if (profilePage == null){ %>
@@ -64,11 +64,5 @@
                 <p><a href="/Instagrim/editProfile/<%=profilePage.getUsername()%>">Edit your profile information</a></p>
             </article>
             <% }}} %>
-            
-        <footer>
-            <ul>
-                <li class="footer"><a href="/Instagrim">Home</a></li>
-            </ul>
-        </footer>
     </body>
 </html>

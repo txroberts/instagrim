@@ -9,6 +9,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" type="text/css" href="Styles.css" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Edit your profile information</title>
     </head>
@@ -28,12 +29,14 @@
                     <p><b>User Name:</b> <input type="text" name="username" value="<%=profilePage.getUsername()%>" readonly="readonly" autofocus></p>
                     <p><b>First Name:</b> <input type="text" name="firstName" value="<%=profilePage.getFirstName()%>"></p>
                     <p><b>Last Name:</b> <input type="text" name="lastName" value="<%=profilePage.getLastName()%>"></p>
-                    <p><b>Email:</b> <input type="email" name="email" value="tom@email.com"></p>
                     
                     <br/>
                     <input type="submit" value="Update">
                 </fieldset>
             </form>
+            
+            <br>
+            <a href="/Instagrim/Profile/<%=lg.getUsername()%>">Back to profile</a>
         </article>
     </body>
 </html>
