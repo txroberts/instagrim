@@ -46,7 +46,9 @@
                     <p><b>Real name:</b> <%=profilePage.getFirstName()%> <%=profilePage.getLastName()%></p>
                 <%}%>
                 
-                <% if (profilePage.getProfilePic() != null){%>
+                <% if (profilePage.getProfilePic() == null){ %>
+                    <img height="150" width="150" src="http://www.genengnews.com/app_themes/genconnect/images/default_profile.jpg">
+                <% } else { %>
                     <a href="/Instagrim/Image/<%=profilePage.getProfilePic()%>" ><img src="/Instagrim/Thumb/<%=profilePage.getProfilePic()%>"></a>
                 <% } %>
             

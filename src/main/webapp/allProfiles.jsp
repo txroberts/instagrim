@@ -1,6 +1,6 @@
 <%-- 
-    Document   : searchProfiles
-    Created on : 24-Oct-2014, 17:58:05
+    Document   : allProfiles
+    Created on : 25-Oct-2014, 21:57:54
     Author     : Tom
 --%>
 
@@ -11,9 +11,9 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="Styles.css"/>
+        <title>Instagrim</title>
+        <link rel="stylesheet" type="text/css" href="Styles.css" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Search Profiles</title>
     </head>
     <body>
         <header>
@@ -36,22 +36,6 @@
                 <%}}%>
             </ul>
         </nav>
-        
-        <br>
-        <form method="POST"  action="searchProfiles">
-            <fieldset>
-                <legend><h3>Search for a user</h3></legend>
-                <h3>Search by:</h3>
-                <input type="radio" name="searchArea" value="username" checked="checked">Username
-                <input type="radio" name="searchArea" value="firstName" disabled="true">First Name
-                <input type="radio" name="searchArea" value="lastName" disabled="true">Last Name
-
-                <p><b>Search:</b> <input type="search" name="search" autofocus></p>
-
-                <br/>
-                <input type="submit" value="Search">
-            </fieldset>
-        </form>
         
         <%
             java.util.LinkedList<ProfilePage> profilePages = (java.util.LinkedList<ProfilePage>) request.getAttribute("ProfilePages");

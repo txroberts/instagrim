@@ -24,7 +24,6 @@
             <%
                 LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
                 if (lg != null) {
-                    String UserName = lg.getUsername();
                     if (lg.getlogedin()) {
             %>
             <h2><%=lg.getUsername()%>'s world in black and white!</h2>
@@ -36,7 +35,8 @@
         <nav>
             <ul>
                 <li><a href="upload.jsp">Upload</a></li>
-                <li><a href="searchProfiles.jsp">Search Profiles</a></li>
+                <li><a href="/Instagrim/searchProfiles">Search Profiles</a></li>
+                <li><a href="/Instagrim/allProfiles">View all profiles</a></li>
                     <%
                         lg = (LoggedIn) session.getAttribute("LoggedIn");
                         if (lg != null) {

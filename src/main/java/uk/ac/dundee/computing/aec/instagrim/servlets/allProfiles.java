@@ -22,12 +22,12 @@ import uk.ac.dundee.computing.aec.instagrim.stores.ProfilePage;
  *
  * @author Tom
  */
-@WebServlet(name = "searchProfiles", urlPatterns = {"/searchProfiles"})
-public class searchProfiles extends HttpServlet {
+@WebServlet(name = "allProfiles", urlPatterns = {"/allProfiles"})
+public class allProfiles extends HttpServlet {
     
     private Cluster cluster;
     
-    public searchProfiles(){
+    public allProfiles(){
         
     }
     
@@ -47,7 +47,14 @@ public class searchProfiles extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        User us = new User();
+        us.setCluster(cluster);
+        java.util.LinkedList<ProfilePage> profiles = us.getAllProfiles();
         
+        request.setAttribute("ProfilePages", profiles);
+        
+        RequestDispatcher rd = request.getRequestDispatcher("/allProfiles.jsp");
+        rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -62,8 +69,7 @@ public class searchProfiles extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher("/searchProfiles.jsp");
-        rd.forward(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -77,33 +83,7 @@ public class searchProfiles extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String searchArea = request.getParameter("searchArea");
-        String searchString = request.getParameter("search");
-        
-        if (searchString.compareTo("") == 0){
-            RequestDispatcher rd = request.getRequestDispatcher("/searchProfiles.jsp");
-            rd.forward(request, response);
-            
-        } else{
-            DisplayUserProfiles(searchArea, searchString, request, response);
-        }
-    }
-    
-    private void DisplayUserProfiles(String searchField, String searchString, HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        User us = new User();
-        us.setCluster(cluster);
-        java.util.LinkedList<ProfilePage> profilePages = us.searchUser(searchField, searchString);
-        
-        RequestDispatcher rd = request.getRequestDispatcher("/searchProfiles.jsp");
-        if (profilePages == null){
-            rd.forward(request, response);
-        }
-        else {
-            request.setAttribute("ProfilePages", profilePages);
-            System.out.println("Num returned profiles: " + profilePages.size());
-            rd.forward(request, response);
-        }   
+        processRequest(request, response);
     }
 
     /**

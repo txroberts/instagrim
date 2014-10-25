@@ -14,9 +14,7 @@ import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
-import java.util.LinkedList;
 import uk.ac.dundee.computing.aec.instagrim.lib.AeSimpleSHA1;
-import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
 import uk.ac.dundee.computing.aec.instagrim.stores.ProfilePage;
 
 /**
@@ -94,7 +92,7 @@ public class User {
        
     public ProfilePage getUserInfo(String user){
         Session session = cluster.connect("instagrim");
-        PreparedStatement ps = session.prepare("select login, addresses, first_name, last_name, profile_pic from userprofiles where login = ?");
+        PreparedStatement ps = session.prepare("select login, first_name, last_name, profile_pic from userprofiles where login = ?");
         BoundStatement boundStatement = new BoundStatement(ps);
         ResultSet rs = null;
         rs = session.execute(boundStatement.bind(user));
@@ -128,7 +126,7 @@ public class User {
         
         Session session = cluster.connect("instagrim");
             
-        String query = "select login, addresses, first_name, last_name, profile_pic from userprofiles where ";
+        String query = "select login, first_name, last_name, profile_pic from userprofiles where ";
         
         if (searchField.compareTo("username") == 0){
             query += "login = ?";
@@ -150,6 +148,36 @@ public class User {
         
         if (rs.isExhausted()) {
             System.out.println("No profiles returned for: " + searchString);
+            return null;
+        } else {
+            for (Row row : rs) {
+                ProfilePage profile = new ProfilePage();
+                
+                String login = row.getString("login");
+                String firstName = row.getString("first_name");
+                String lastName = row.getString("last_name");
+                java.util.UUID profilePic = row.getUUID("profile_pic");
+                
+                profile.setUsername(login);
+                profile.setFirstName(firstName);
+                profile.setLastName(lastName);
+                profile.setProfilePic(profilePic);
+                
+                profilePages.add(profile);
+            }
+        }
+        return profilePages;
+    }
+    
+    public java.util.LinkedList<ProfilePage> getAllProfiles(){
+        java.util.LinkedList<ProfilePage> profilePages = new java.util.LinkedList<>();
+        Session session = cluster.connect("instagrim");
+        
+        ResultSet rs = null;
+        rs = session.execute("select login, first_name, last_name, profile_pic from userprofiles");
+        
+        if (rs.isExhausted()) {
+            System.out.println("No profiles returned");
             return null;
         } else {
             for (Row row : rs) {
