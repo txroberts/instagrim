@@ -29,6 +29,12 @@
             <form method="POST"  action="Register">
                 <ul>
                     <li>User Name <input type="text" name="username"></li>
+                    <%
+                        String message = (String) request.getAttribute("message");
+                        if (message != null){ %>
+                            <font color="red"><%=message%></font>
+                        <%}
+                    %>
                     <li>Password <input type="password" name="password"></li>
                     <li>First Name <input type="text" name="firstName"></li>
                     <li>Last Name <input type="text" name="lastName"></li>

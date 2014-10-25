@@ -198,4 +198,18 @@ public class User {
         }
         return profilePages;
     }
+    
+    public boolean userExists(String username){
+        Session session = cluster.connect("instagrim");
+        PreparedStatement ps = session.prepare("select login from userprofiles where login = ?");
+        BoundStatement boundStatement = new BoundStatement(ps);
+        ResultSet rs = null;
+        rs = session.execute(boundStatement.bind(username));
+        
+        if (rs.isExhausted()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }
