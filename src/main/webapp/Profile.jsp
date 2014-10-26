@@ -20,7 +20,7 @@
            
         <header>
             <ul>
-                <li class="header"><a href="/Instagrim">Home</a></li>
+                <li class="header"><a href="/Instagrimtxr">Home</a></li>
             </ul>
         </header>
            
@@ -28,12 +28,12 @@
         <h2>Your world in Black and White</h2>
         <nav>
             <ul>
-                <li class="nav"><a href="/Instagrim/upload.jsp">Upload</a></li>
+                <li class="nav"><a href="/Instagrimtxr/upload.jsp">Upload</a></li>
                 <% if (lg != null && lg.getlogedin()) {
                     if (profilePage.getUsername().compareTo(lg.getUsername()) == 0){ %>
-                        <li><a href="/Instagrim/Images/<%=profilePage.getUsername()%>">Your Images</a></li>
+                        <li><a href="/Instagrimtxr/Images/<%=profilePage.getUsername()%>">Your Images</a></li>
                 <%  } else { %>
-                    <li><a href="/Instagrim/Images/<%=profilePage.getUsername()%>"><%=profilePage.getUsername()%>'s Images</a></li>
+                    <li><a href="/Instagrimtxr/Images/<%=profilePage.getUsername()%>"><%=profilePage.getUsername()%>'s Images</a></li>
                     <% }} %>
             </ul>
         </nav>
@@ -50,7 +50,7 @@
                 <% if (profilePage.getProfilePic() == null){ %>
                     <img height="150" width="150" src="http://www.genengnews.com/app_themes/genconnect/images/default_profile.jpg">
                 <% } else { %>
-                    <a href="/Instagrim/Image/<%=profilePage.getProfilePic()%>" ><img src="/Instagrim/Thumb/<%=profilePage.getProfilePic()%>"></a>
+                    <a href="/Instagrimtxr/Image/<%=profilePage.getProfilePic()%>" ><img src="/Instagrimtxr/Thumb/<%=profilePage.getProfilePic()%>"></a>
                 <% } %>
                 
                 <% if (profilePage.getEmails().isEmpty() == false){%>
@@ -76,7 +76,7 @@
                     <input type="submit" value="Press"> to upload the file!
                 </form>
                 
-                <p><a href="/Instagrim/editProfile/<%=profilePage.getUsername()%>">Edit your profile information</a></p>
+                <p><a href="/Instagrimtxr/editProfile/<%=profilePage.getUsername()%>">Edit your profile information</a></p>
             </article>
             <% }}} %>
     </body>

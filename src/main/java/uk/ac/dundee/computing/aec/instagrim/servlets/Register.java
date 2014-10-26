@@ -8,7 +8,6 @@ package uk.ac.dundee.computing.aec.instagrim.servlets;
 
 import com.datastax.driver.core.Cluster;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -55,7 +54,7 @@ public class Register extends HttpServlet {
         us.setCluster(cluster);
         if (!us.userExists(username)){
             us.RegisterUser(username, password, firstName, lastName, emailAddr);
-            response.sendRedirect("/Instagrim");
+            response.sendRedirect("/Instagrimtxr");
         } else {
             String message = "**Username already exists**";
             request.setAttribute("message", message);

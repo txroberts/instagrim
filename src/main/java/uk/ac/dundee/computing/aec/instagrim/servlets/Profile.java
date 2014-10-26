@@ -122,7 +122,7 @@ public class Profile extends HttpServlet {
             }
             //RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
             //rd.forward(request, response);
-            response.sendRedirect("/Instagrim/Profile/" + username);
+            response.sendRedirect("/Instagrimtxr/Profile/" + username);
         }
     }
 

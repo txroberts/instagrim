@@ -18,7 +18,7 @@
     <body>
         <header>
             <ul>
-                <li class="header"><a href="/Instagrim">Home</a></li>
+                <li class="header"><a href="/Instagrimtxr">Home</a></li>
             </ul>
         </header>
         
@@ -31,8 +31,8 @@
                         if (lg != null) {
                             if (lg.getlogedin()) {
                     %>
-                <li><a href="/Instagrim/Profile/<%=lg.getUsername()%>">Your Profile</a></li>
-                <li><a href="/Instagrim/Images/<%=lg.getUsername()%>">Your Images</a></li>
+                <li><a href="/Instagrimtxr/Profile/<%=lg.getUsername()%>">Your Profile</a></li>
+                <li><a href="/Instagrimtxr/Images/<%=lg.getUsername()%>">Your Images</a></li>
                 <%}}%>
             </ul>
         </nav>
@@ -65,12 +65,12 @@
                 <%while (iterator.hasNext()){
                     ProfilePage pp = (ProfilePage) iterator.next();
                     if (pp.getProfilePic() == null){ %>
-                    <tr><td><a href="/Instagrim/Profile/<%=pp.getUsername()%>"><img src="http://www.genengnews.com/app_themes/genconnect/images/default_profile.jpg"></a></td>
+                    <tr><td><a href="/Instagrimtxr/Profile/<%=pp.getUsername()%>"><img src="http://www.genengnews.com/app_themes/genconnect/images/default_profile.jpg"></a></td>
                     <% } else { %>
-                    <td><a href="/Instagrim/Profile/<%=pp.getUsername()%>"><img src="/Instagrim/Thumb/<%=pp.getProfilePic()%>"></a></td>
+                    <td><a href="/Instagrimtxr/Profile/<%=pp.getUsername()%>"><img src="/Instagrimtxr/Thumb/<%=pp.getProfilePic()%>"></a></td>
                     <% } %>
                     <td>
-                        <h3><a href="/Instagrim/Profile/<%=pp.getUsername()%>"><%=pp.getUsername()%></a></h3>
+                        <h3><a href="/Instagrimtxr/Profile/<%=pp.getUsername()%>"><%=pp.getUsername()%></a></h3>
                         <h5><%=pp.getFirstName()%> <%=pp.getLastName()%></h5>
                     </td>
                     </tr>

@@ -48,13 +48,14 @@ public class Comments extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String args[] = Convertors.SplitRequestPath(request);
-        java.util.UUID picID = java.util.UUID.fromString(args[2]);
+        request.setAttribute("picID", args[2]);
         
         PicModel pm = new PicModel();
         pm.setCluster(cluster);
         
+        java.util.UUID picID = java.util.UUID.fromString(args[2]);
         LinkedList<Comment> comments = pm.getPicComments(picID);
-        request.setAttribute("picID", picID);
+        
         request.setAttribute("Comments", comments);
         
         RequestDispatcher rd = request.getRequestDispatcher("/Comments.jsp");
@@ -91,7 +92,7 @@ public class Comments extends HttpServlet {
         LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
         
         if (lg == null || !lg.getlogedin()){
-            response.sendRedirect("/Instagrim");
+            response.sendRedirect("/Instagrimtxr");
         } else {
             String comment = request.getParameter("comment");
             String picIDString = request.getParameter("picID");
@@ -104,7 +105,7 @@ public class Comments extends HttpServlet {
                 pm.setCluster(cluster);
                 pm.insertComment(username, picID, comment);
 
-                response.sendRedirect("/Instagrim/Comments/" + picID);
+                response.sendRedirect("/Instagrimtxr/Comments/" + picID);
             }
         }
     }

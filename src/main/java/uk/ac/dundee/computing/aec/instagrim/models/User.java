@@ -38,7 +38,7 @@ public class User {
             System.out.println("Can't check your password");
             return false;
         }
-        Session session = cluster.connect("instagrim");
+        Session session = cluster.connect("instagrimtxr");
         Set<String> emails = new HashSet<>();
         emails.add(emailAddr);
         
@@ -55,7 +55,7 @@ public class User {
     }
     
     public void updateUserInfo(String username, String firstName, String lastName, String email){
-        Session session = cluster.connect("instagrim");
+        Session session = cluster.connect("instagrimtxr");
         if (email.compareTo("") == 0){
             PreparedStatement ps = session.prepare("update userprofiles set first_name = ?, last_name = ? where login = ?");
             BoundStatement bs = new BoundStatement(ps);
@@ -81,7 +81,7 @@ public class User {
             System.out.println("Can't check your password");
             return false;
         }
-        Session session = cluster.connect("instagrim");
+        Session session = cluster.connect("instagrimtxr");
         PreparedStatement ps = session.prepare("select password from userprofiles where login =?");
         ResultSet rs = null;
         BoundStatement boundStatement = new BoundStatement(ps);
@@ -111,7 +111,7 @@ public class User {
     }
        
     public ProfilePage getUserInfo(String user){
-        Session session = cluster.connect("instagrim");
+        Session session = cluster.connect("instagrimtxr");
         PreparedStatement ps = session.prepare("select login, first_name, last_name, email, profile_pic from userprofiles where login = ?");
         BoundStatement boundStatement = new BoundStatement(ps);
         ResultSet rs = null;
@@ -148,7 +148,7 @@ public class User {
     public java.util.LinkedList<ProfilePage> searchUser(String searchField, String searchString){
         java.util.LinkedList<ProfilePage> profilePages = new java.util.LinkedList<>();
         
-        Session session = cluster.connect("instagrim");
+        Session session = cluster.connect("instagrimtxr");
             
         String query = "select login, first_name, last_name, profile_pic from userprofiles where ";
         
@@ -197,7 +197,7 @@ public class User {
     
     public java.util.LinkedList<ProfilePage> getAllProfiles(){
         java.util.LinkedList<ProfilePage> profilePages = new java.util.LinkedList<>();
-        Session session = cluster.connect("instagrim");
+        Session session = cluster.connect("instagrimtxr");
         
         ResultSet rs = null;
         rs = session.execute("select login, first_name, last_name, profile_pic from userprofiles");
@@ -228,7 +228,7 @@ public class User {
     }
     
     public boolean userExists(String username){
-        Session session = cluster.connect("instagrim");
+        Session session = cluster.connect("instagrimtxr");
         PreparedStatement ps = session.prepare("select login from userprofiles where login = ?");
         BoundStatement boundStatement = new BoundStatement(ps);
         ResultSet rs = null;

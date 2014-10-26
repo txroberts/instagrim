@@ -17,7 +17,7 @@
     <body>
         <header>
             <ul>
-                <li class="header"><a href="/Instagrim">Home</a></li>
+                <li class="header"><a href="/Instagrimtxr">Home</a></li>
             </ul>
             
             <h1>InstaGrim!</h1>
@@ -35,15 +35,15 @@
         <nav>
             <ul>
                 <li><a href="upload.jsp">Upload</a></li>
-                <li><a href="/Instagrim/searchProfiles">Search Profiles</a></li>
-                <li><a href="/Instagrim/allProfiles">View all profiles</a></li>
+                <li><a href="/Instagrimtxr/searchProfiles">Search Profiles</a></li>
+                <li><a href="/Instagrimtxr/allProfiles">View all profiles</a></li>
                     <%
                         lg = (LoggedIn) session.getAttribute("LoggedIn");
                         if (lg != null) {
                             if (lg.getlogedin()) {
                     %>
-                <li><a href="/Instagrim/Profile/<%=lg.getUsername()%>">Your Profile</a></li>
-                <li><a href="/Instagrim/Images/<%=lg.getUsername()%>">Your Images</a></li>
+                <li><a href="/Instagrimtxr/Profile/<%=lg.getUsername()%>">Your Profile</a></li>
+                <li><a href="/Instagrimtxr/Images/<%=lg.getUsername()%>">Your Images</a></li>
                 <form method="POST"  action="Logout">
                     <input type="submit" value="Logout"> 
                 </form>

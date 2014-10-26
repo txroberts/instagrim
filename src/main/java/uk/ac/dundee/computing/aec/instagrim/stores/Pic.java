@@ -7,7 +7,6 @@ package uk.ac.dundee.computing.aec.instagrim.stores;
 
 import com.datastax.driver.core.utils.Bytes;
 import java.nio.ByteBuffer;
-import java.util.LinkedList;
 import java.util.List;
 
 /**

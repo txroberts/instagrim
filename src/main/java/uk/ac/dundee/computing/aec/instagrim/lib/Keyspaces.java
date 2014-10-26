@@ -1,8 +1,5 @@
 package uk.ac.dundee.computing.aec.instagrim.lib;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.datastax.driver.core.*;
 
 public final class Keyspaces {
@@ -14,8 +11,8 @@ public final class Keyspaces {
     public static void SetUpKeySpaces(Cluster c) {
         try {
             //Add some keyspaces here
-            String createkeyspace = "create keyspace if not exists instagrim  WITH replication = {'class':'SimpleStrategy', 'replication_factor':1}";
-            String CreatePicTable = "CREATE TABLE if not exists instagrim.Pics ("
+            String createkeyspace = "create keyspace if not exists instagrimtxr  WITH replication = {'class':'SimpleStrategy', 'replication_factor':1}";
+            String CreatePicTable = "CREATE TABLE if not exists instagrimtxr.Pics ("
                     + " user varchar,"
                     + " picid uuid, "
                     + " interaction_time timestamp,"
@@ -30,18 +27,18 @@ public final class Keyspaces {
                     + " name  varchar,"
                     + " PRIMARY KEY (picid)"
                     + ")";
-            String Createuserpiclist = "CREATE TABLE if not exists instagrim.userpiclist (\n"
+            String Createuserpiclist = "CREATE TABLE if not exists instagrimtxr.userpiclist (\n"
                     + "picid uuid,\n"
                     + "user varchar,\n"
                     + "pic_added timestamp,\n"
                     + "PRIMARY KEY (user,pic_added)\n"
                     + ") WITH CLUSTERING ORDER BY (pic_added desc);";
-            String CreateAddressType = "CREATE TYPE if not exists instagrim.address (\n"
+            String CreateAddressType = "CREATE TYPE if not exists instagrimtxr.address (\n"
                     + "      street text,\n"
                     + "      city text,\n"
                     + "      zip int\n"
                     + "  );";
-            String CreateUserProfile = "CREATE TABLE if not exists instagrim.userprofiles (\n"
+            String CreateUserProfile = "CREATE TABLE if not exists instagrimtxr.userprofiles (\n"
                     + "      login text PRIMARY KEY,\n"
                      + "     password text,\n"
                     + "      first_name text,\n"
@@ -50,14 +47,14 @@ public final class Keyspaces {
                     + "      addresses  map<text, frozen <address>>,\n"
                     + "      profile_pic uuid\n"
                     + "  );";
-            String CreateComments = "CREATE TABLE if not exists instagrim.comments (\n"
+            String CreateComments = "CREATE TABLE if not exists instagrimtxr.comments (\n"
                     + "	comment_id uuid PRIMARY KEY,\n"
                     + "	pic_id uuid,\n"
                     + "	date_created timestamp,\n"
                     + "	user text,\n"
                     + "	content text\n"
                     + ");";
-            String CreateComments2ndIndex = " CREATE INDEX if not exists ON instagrim.comments (pic_id);";
+            String CreateComments2ndIndex = " CREATE INDEX if not exists ON instagrimtxr.comments (pic_id);";
             Session session = c.connect();
             try {
                 PreparedStatement statement = session
@@ -66,9 +63,9 @@ public final class Keyspaces {
                         statement);
                 ResultSet rs = session
                         .execute(boundStatement);
-                System.out.println("created instagrim ");
+                System.out.println("created instagrimtxr");
             } catch (Exception et) {
-                System.out.println("Can't create instagrim " + et);
+                System.out.println("Can't create instagrimtxr " + et);
             }
 
             //now add some column families 
@@ -78,7 +75,7 @@ public final class Keyspaces {
                 SimpleStatement cqlQuery = new SimpleStatement(CreatePicTable);
                 session.execute(cqlQuery);
             } catch (Exception et) {
-                System.out.println("Can't create tweet table " + et);
+                System.out.println("Can't create pic table " + et);
             }
             System.out.println("" + Createuserpiclist);
 

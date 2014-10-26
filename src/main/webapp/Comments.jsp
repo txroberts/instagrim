@@ -4,7 +4,6 @@
     Author     : Tom
 --%>
 
-<%@page import="java.util.UUID"%>
 <%@page import="uk.ac.dundee.computing.aec.instagrim.stores.Comment"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="uk.ac.dundee.computing.aec.instagrim.stores.Pic"%>
@@ -18,14 +17,14 @@
     <body>
         <header>
             <ul>
-                <li class="header"><a href="/Instagrim">Home</a></li>
+                <li class="header"><a href="/Instagrimtxr">Home</a></li>
             </ul>
             
             <h1>InstaGrim!</h1>
         </header>
-        <% UUID picID = (UUID) request.getAttribute("picID"); %>
+        <% String picID = (String) request.getAttribute("picID"); %>
         
-        <a href="/Instagrim/Image/<%=picID%>" ><img src="/Instagrim/Thumb/<%=picID%>"></a>
+        <a href="/Instagrimtxr/Image/<%=picID%>" ><img src="/Instagrimtxr/Thumb/<%=picID%>"></a>
         
         <%
             java.util.LinkedList<Comment> comments = (java.util.LinkedList<Comment>) request.getAttribute("Comments");

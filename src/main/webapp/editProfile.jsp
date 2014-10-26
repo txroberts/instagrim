@@ -36,7 +36,7 @@
             </form>
             
             <br>
-            <a href="/Instagrim/Profile/<%=lg.getUsername()%>">Back to profile</a>
+            <a href="/Instagrimtxr/Profile/<%=lg.getUsername()%>">Back to profile</a>
         </article>
     </body>
 </html>

@@ -74,7 +74,7 @@ public class editProfile extends HttpServlet {
         LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
         
         if (lg == null || pp == null || pp.getUsername().compareTo(lg.getUsername()) != 0 || lg.getlogedin() == false){
-            response.sendRedirect("/Instagrim");
+            response.sendRedirect("/Instagrimtxr");
         }
         else{
             request.setAttribute("ProfilePage", pp);
@@ -104,7 +104,7 @@ public class editProfile extends HttpServlet {
         us.setCluster(cluster);
         us.updateUserInfo(username, firstName, lastName, email);
         
-        response.sendRedirect("/Instagrim");
+        response.sendRedirect("/Instagrimtxr");
     }
 
     /**
