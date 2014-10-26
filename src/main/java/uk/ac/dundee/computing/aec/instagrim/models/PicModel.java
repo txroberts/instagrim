@@ -18,18 +18,14 @@ import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
-import com.datastax.driver.core.utils.Bytes;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.Date;
-import java.util.LinkedList;
 import javax.imageio.ImageIO;
 import static org.imgscalr.Scalr.*;
 import org.imgscalr.Scalr.Method;
@@ -221,5 +217,29 @@ public class PicModel {
         return p;
 
     }
-
+    
+    public Pic getPicComments(java.util.UUID picID){
+        Session session = cluster.connect("instagrim");
+        PreparedStatement ps = session.prepare("select comments, user from pics where picid = ?");
+        BoundStatement boundStatement = new BoundStatement(ps);
+        ResultSet rs = session.execute(boundStatement.bind(picID));
+        
+        Pic pic = null;
+        
+        if (rs.isExhausted()) {
+            System.out.println("No comments found");
+            return null;
+        } else {
+            for (Row row : rs) {
+                pic = new Pic();
+                
+                java.util.List<String> comments = row.getList("comments", String.class);
+                
+                pic.setUUID(picID);
+                pic.setComments(comments);
+            }
+        }
+        
+        return pic;
+    }
 }
