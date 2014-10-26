@@ -26,13 +26,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Date;
+import java.util.UUID;
 import javax.imageio.ImageIO;
 import static org.imgscalr.Scalr.*;
 import org.imgscalr.Scalr.Method;
 
 import uk.ac.dundee.computing.aec.instagrim.lib.*;
-import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
-//import uk.ac.dundee.computing.aec.stores.TweetStore;
+import uk.ac.dundee.computing.aec.instagrim.stores.*;
 
 public class PicModel {
 
@@ -146,6 +146,9 @@ public class PicModel {
         rs = session.execute( // this is where the query is executed
                 boundStatement.bind( // here you are binding the 'boundStatement'
                         User));
+        
+        session.close();
+        
         if (rs.isExhausted()) {
             System.out.println("No Images returned");
             return null;
@@ -159,6 +162,7 @@ public class PicModel {
 
             }
         }
+
         return Pics;
     }
 
@@ -218,28 +222,51 @@ public class PicModel {
 
     }
     
-    public Pic getPicComments(java.util.UUID picID){
+    public void insertComment(String username, UUID picID, String comment){
+        Convertors convertor = new Convertors();
+        java.util.UUID commentID = convertor.getTimeUUID();
+        Date dateCreated = new Date();
+        
         Session session = cluster.connect("instagrim");
-        PreparedStatement ps = session.prepare("select comments, user from pics where picid = ?");
+        PreparedStatement psInsertComment = session.prepare("insert into comments (comment_id, pic_id, user, date_created, content) values(?,?,?,?,?)");
+        BoundStatement bsInsertComment = new BoundStatement(psInsertComment);
+        session.execute(bsInsertComment.bind(commentID,picID,username,dateCreated,comment));
+        
+        session.close();
+    }
+    
+    public java.util.LinkedList<Comment> getPicComments(java.util.UUID picID){
+        Session session = cluster.connect("instagrim");
+        PreparedStatement ps = session.prepare("select comment_id, user, date_created, content from comments where pic_id = ?");
         BoundStatement boundStatement = new BoundStatement(ps);
         ResultSet rs = session.execute(boundStatement.bind(picID));
+        session.close();
         
-        Pic pic = null;
+        java.util.LinkedList<Comment> comments = new java.util.LinkedList<>();
         
         if (rs.isExhausted()) {
             System.out.println("No comments found");
             return null;
         } else {
             for (Row row : rs) {
-                pic = new Pic();
+                Comment comment = new Comment();
                 
-                java.util.List<String> comments = row.getList("comments", String.class);
+                java.util.UUID commentID = row.getUUID("comment_id");
+                String user = row.getString("user");
+                Date dateCreated = row.getDate("date_created");
+                String content = row.getString("content");
                 
-                pic.setUUID(picID);
-                pic.setComments(comments);
+                comment.setCommentID(commentID);
+                comment.setPicID(picID);
+                comment.setUser(user);
+                comment.setDateCreated(dateCreated);
+                comment.setContent(content);
+                
+                comments.add(comment);
             }
         }
         
-        return pic;
+        
+        return comments;
     }
 }

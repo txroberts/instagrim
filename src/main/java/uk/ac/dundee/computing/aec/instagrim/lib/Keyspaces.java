@@ -50,6 +50,14 @@ public final class Keyspaces {
                     + "      addresses  map<text, frozen <address>>,\n"
                     + "      profile_pic uuid\n"
                     + "  );";
+            String CreateComments = "CREATE TABLE if not exists instagrim.comments (\n"
+                    + "	comment_id uuid PRIMARY KEY,\n"
+                    + "	pic_id uuid,\n"
+                    + "	date_created timestamp,\n"
+                    + "	user text,\n"
+                    + "	content text\n"
+                    + ");";
+            String CreateComments2ndIndex = " CREATE INDEX if not exists ON instagrim.comments (pic_id);";
             Session session = c.connect();
             try {
                 PreparedStatement statement = session
@@ -94,6 +102,23 @@ public final class Keyspaces {
             } catch (Exception et) {
                 System.out.println("Can't create Address Profile " + et);
             }
+            
+            try {
+                SimpleStatement cqlQuery = new SimpleStatement(CreateComments);
+                session.execute(cqlQuery);
+            } catch (Exception et) {
+                System.out.println("Can't create comments " + et);
+            }
+            System.out.println("" + CreateComments);
+            
+            try {
+                SimpleStatement cqlQuery = new SimpleStatement(CreateComments2ndIndex);
+                session.execute(cqlQuery);
+            } catch (Exception et) {
+                System.out.println("Can't create comments index " + et);
+            }
+            System.out.println("" + CreateComments2ndIndex);
+                    
             session.close();
 
         } catch (Exception et) {

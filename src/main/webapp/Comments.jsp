@@ -4,6 +4,8 @@
     Author     : Tom
 --%>
 
+<%@page import="java.util.UUID"%>
+<%@page import="uk.ac.dundee.computing.aec.instagrim.stores.Comment"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="uk.ac.dundee.computing.aec.instagrim.stores.Pic"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -21,30 +23,38 @@
             
             <h1>InstaGrim!</h1>
         </header>
+        <% UUID picID = (UUID) request.getAttribute("picID"); %>
+        
+        <a href="/Instagrim/Image/<%=picID%>" ><img src="/Instagrim/Thumb/<%=picID%>"></a>
         
         <%
-            Pic pic = (Pic) request.getAttribute("Pic");
-            
-            if (pic == null){ %>
-                <p>Picture not found</p>
+            java.util.LinkedList<Comment> comments = (java.util.LinkedList<Comment>) request.getAttribute("Comments");
+            if (comments == null){ %>
+            <p>No comments found</p>
             <% } else { %>
-                <a href="/Instagrim/Image/<%=pic.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=pic.getSUUID()%>"></a>
-            <%
-                if (pic.getComments().isEmpty()){ %>
-                    <p>No comments found</p>
-            <%} else { %>
                 <h3>Comments</h3>
-                    <table border="1">
-                        <% java.util.List<String> comments = pic.getComments();
-                            Iterator<String> iterator = comments.iterator();
-                            while (iterator.hasNext()){ %>
-                            <tr><td>
-                                <%=iterator.next()%>
-                            </td></tr>
-                            <% } %>
-                    </table>
-                <% } 
-            }
-            %>
+                    <% Iterator<Comment> iterator = comments.iterator();
+                        while (iterator.hasNext()){
+                            Comment comment = iterator.next();
+                        %><table border="1"><tr>
+                            <td><%=comment.getUser()%></td>
+                            <td><%=comment.getDateCreated()%></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><%=comment.getContent()%></td>
+                        </tr></table><br>
+                        <% } %>
+                </table>
+
+                <br>
+                <% }
+                %>
+                
+            <form method="POST" action="newComment">
+                <input type="hidden" name="picID" value="<%=picID.toString()%>">
+                <p><input type="text" name="comment"></p>
+                <p><input type="submit" value="Add Comment"></p>
+            </form>
+            
     </body>
 </html>

@@ -50,6 +50,7 @@ public class User {
                         username,EncodedPassword,firstName,lastName,emails));
         //We are assuming this always works.  Also a transaction would be good here !
         
+        session.close();
         return true;
     }
     
@@ -59,6 +60,7 @@ public class User {
             PreparedStatement ps = session.prepare("update userprofiles set first_name = ?, last_name = ? where login = ?");
             BoundStatement bs = new BoundStatement(ps);
             session.execute(bs.bind(firstName, lastName, username));
+            session.close();
         }
         else{
             Set<String> emails = new HashSet<>();
@@ -66,6 +68,7 @@ public class User {
             PreparedStatement ps = session.prepare("update userprofiles set first_name = ?, last_name = ?, email = email + ? where login = ?");
             BoundStatement bs = new BoundStatement(ps);
             session.execute(bs.bind(firstName, lastName, emails, username));
+            session.close();
         }
     }
     
@@ -85,6 +88,9 @@ public class User {
         rs = session.execute( // this is where the query is executed
                 boundStatement.bind( // here you are binding the 'boundStatement'
                         username));
+        
+        session.close();
+        
         if (rs.isExhausted()) {
             System.out.println("No Images returned");
             return false;
@@ -110,6 +116,7 @@ public class User {
         BoundStatement boundStatement = new BoundStatement(ps);
         ResultSet rs = null;
         rs = session.execute(boundStatement.bind(user));
+        session.close();
         
         ProfilePage profile = null;
         
@@ -133,6 +140,7 @@ public class User {
                 profile.setEmails(emails);
             }
         }
+        
         
         return profile;
     }
@@ -161,6 +169,7 @@ public class User {
         BoundStatement boundStatement = new BoundStatement(ps);
         ResultSet rs = null;
         rs = session.execute(boundStatement.bind(searchString));
+        session.close();
         
         if (rs.isExhausted()) {
             System.out.println("No profiles returned for: " + searchString);
@@ -182,6 +191,7 @@ public class User {
                 profilePages.add(profile);
             }
         }
+        
         return profilePages;
     }
     
@@ -191,6 +201,7 @@ public class User {
         
         ResultSet rs = null;
         rs = session.execute("select login, first_name, last_name, profile_pic from userprofiles");
+        session.close();
         
         if (rs.isExhausted()) {
             System.out.println("No profiles returned");
@@ -212,6 +223,7 @@ public class User {
                 profilePages.add(profile);
             }
         }
+        
         return profilePages;
     }
     
@@ -222,6 +234,7 @@ public class User {
         ResultSet rs = null;
         rs = session.execute(boundStatement.bind(username));
         
+        session.close();
         if (rs.isExhausted()) {
             return false;
         } else {
