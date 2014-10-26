@@ -4,6 +4,7 @@
     Author     : Tom
 --%>
 
+<%@page import="java.util.Iterator"%>
 <%@page import="uk.ac.dundee.computing.aec.instagrim.stores.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -51,7 +52,19 @@
                 <% } else { %>
                     <a href="/Instagrim/Image/<%=profilePage.getProfilePic()%>" ><img src="/Instagrim/Thumb/<%=profilePage.getProfilePic()%>"></a>
                 <% } %>
-            
+                
+                <% if (profilePage.getEmails().isEmpty() == false){%>
+                    <table border="1">
+                        <tr>
+                            <td><b>Emails:</b></td>
+                            <td>
+                    <% java.util.Set<String> emails = profilePage.getEmails();
+                    Iterator<String> iterator = emails.iterator();
+                    while (iterator.hasNext()){
+                        String currEmail = iterator.next(); %>
+                        <a href="mailto:<%=currEmail%>"><%=currEmail%></a><br>
+                        <% } %></td></tr></table>
+                <% } %>
             <% if (lg != null && lg.getlogedin()){
                     if (profilePage.getUsername().compareTo(lg.getUsername()) == 0){ %>
             <article>

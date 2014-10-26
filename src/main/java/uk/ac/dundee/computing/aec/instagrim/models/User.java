@@ -14,6 +14,8 @@ import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashSet;
+import java.util.Set;
 import uk.ac.dundee.computing.aec.instagrim.lib.AeSimpleSHA1;
 import uk.ac.dundee.computing.aec.instagrim.stores.ProfilePage;
 
@@ -37,22 +39,34 @@ public class User {
             return false;
         }
         Session session = cluster.connect("instagrim");
-        PreparedStatement ps = session.prepare("insert into userprofiles (login,password,first_name,last_name) Values(?,?,?,?)");
+        Set<String> emails = new HashSet<>();
+        emails.add(emailAddr);
+        
+        PreparedStatement ps = session.prepare("insert into userprofiles (login,password,first_name,last_name,email) Values(?,?,?,?,?)");
        
         BoundStatement boundStatement = new BoundStatement(ps);
         session.execute( // this is where the query is executed
                 boundStatement.bind( // here you are binding the 'boundStatement'
-                        username,EncodedPassword,firstName,lastName));
+                        username,EncodedPassword,firstName,lastName,emails));
         //We are assuming this always works.  Also a transaction would be good here !
         
         return true;
     }
     
-    public void updateUserInfo(String username, String firstName, String lastName){
+    public void updateUserInfo(String username, String firstName, String lastName, String email){
         Session session = cluster.connect("instagrim");
-        PreparedStatement ps = session.prepare("update userprofiles set first_name = ?, last_name = ? where login = ?");
-        BoundStatement bs = new BoundStatement(ps);
-        session.execute(bs.bind(firstName, lastName, username));
+        if (email.compareTo("") == 0){
+            PreparedStatement ps = session.prepare("update userprofiles set first_name = ?, last_name = ? where login = ?");
+            BoundStatement bs = new BoundStatement(ps);
+            session.execute(bs.bind(firstName, lastName, username));
+        }
+        else{
+            Set<String> emails = new HashSet<>();
+            emails.add(email);
+            PreparedStatement ps = session.prepare("update userprofiles set first_name = ?, last_name = ?, email = email + ? where login = ?");
+            BoundStatement bs = new BoundStatement(ps);
+            session.execute(bs.bind(firstName, lastName, emails, username));
+        }
     }
     
     public boolean IsValidUser(String username, String Password){
@@ -92,7 +106,7 @@ public class User {
        
     public ProfilePage getUserInfo(String user){
         Session session = cluster.connect("instagrim");
-        PreparedStatement ps = session.prepare("select login, first_name, last_name, profile_pic from userprofiles where login = ?");
+        PreparedStatement ps = session.prepare("select login, first_name, last_name, email, profile_pic from userprofiles where login = ?");
         BoundStatement boundStatement = new BoundStatement(ps);
         ResultSet rs = null;
         rs = session.execute(boundStatement.bind(user));
@@ -110,11 +124,13 @@ public class User {
                 String firstName = row.getString("first_name");
                 String lastName = row.getString("last_name");
                 java.util.UUID profilePic = row.getUUID("profile_pic");
+                Set<String> emails = row.getSet("email", String.class);
                 
                 profile.setUsername(username);
                 profile.setFirstName(firstName);
                 profile.setLastName(lastName);
                 profile.setProfilePic(profilePic);
+                profile.setEmails(emails);
             }
         }
         

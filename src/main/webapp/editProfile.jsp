@@ -25,11 +25,11 @@
             <h3>Edit your profile</h3>
             <form method="POST"  action="UpdateProfile">
                 <fieldset>
-                    <legend>Personal information:</legend>
-                    <p><b>User Name:</b> <input type="text" name="username" value="<%=profilePage.getUsername()%>" readonly="readonly" autofocus></p>
+                    <legend><h3>Personal information</h3></legend>
+                    <input type="hidden" name="username" value="<%=profilePage.getUsername()%>">
                     <p><b>First Name:</b> <input type="text" name="firstName" value="<%=profilePage.getFirstName()%>"></p>
                     <p><b>Last Name:</b> <input type="text" name="lastName" value="<%=profilePage.getLastName()%>"></p>
-                    
+                    <p><b>Add email:</b> <input type="text" name="emailAddr"></p>
                     <br/>
                     <input type="submit" value="Update">
                 </fieldset>

@@ -5,6 +5,7 @@
  */
 package uk.ac.dundee.computing.aec.instagrim.stores;
 
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -15,10 +16,19 @@ public class ProfilePage {
     String username = null;
     String firstName = null;
     String lastName = null;
+    Set<String> emails = null;
     UUID profilePic = null;
     
     public void ProfilePage(){
         
+    }
+
+    public Set<String> getEmails() {
+        return emails;
+    }
+
+    public void setEmails(Set<String> emails) {
+        this.emails = emails;
     }
 
     public String getUsername() {

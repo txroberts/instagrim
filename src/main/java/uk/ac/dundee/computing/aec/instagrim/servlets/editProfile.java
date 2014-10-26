@@ -7,7 +7,6 @@ package uk.ac.dundee.computing.aec.instagrim.servlets;
 
 import com.datastax.driver.core.Cluster;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -99,10 +98,11 @@ public class editProfile extends HttpServlet {
         String username = request.getParameter("username");
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
+        String email = request.getParameter("emailAddr");
         
         User us = new User();
         us.setCluster(cluster);
-        us.updateUserInfo(username, firstName, lastName);
+        us.updateUserInfo(username, firstName, lastName, email);
         
         response.sendRedirect("/Instagrim");
     }
